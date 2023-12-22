@@ -1,0 +1,54 @@
+package ies.morilla.ibanez.jesus.boletin7.components;
+
+import java.awt.Component;
+
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+
+public class TaskRenderer extends JLabel implements ListCellRenderer<Task> {
+
+	public TaskRenderer() {
+	        setOpaque(true);
+	    }
+
+	@Override
+	public Component getListCellRendererComponent(JList<? extends Country> list, Country country, int index,
+			boolean isSelected, boolean cellHasFocus) {
+
+		String code = country.getCode();
+		ImageIcon imageIcon = new ImageIcon(getClass().getResource("/images/" + code + ".png"));
+
+		setIcon(imageIcon);
+		setText(country.getName());
+
+		if (isSelected) {
+			setBackground(list.getSelectionBackground());
+			setForeground(list.getSelectionForeground());
+		} else {
+			setBackground(list.getBackground());
+			setForeground(list.getForeground());
+		}
+
+		return this;
+	}
+
+	@Override
+	public Component getListCellRendererComponent(JList<? extends Task> list, Task value, int index, boolean isSelected,
+			boolean cellHasFocus) {
+		
+		setText(value.toString());
+		
+		if (isSelected) {
+			setBackground(list.getSelectionBackground());
+			setForeground(list.getSelectionForeground());
+		} else {
+			setBackground(list.getBackground());
+			setForeground(list.getForeground());
+		}
+		
+		return this;
+	}
+}

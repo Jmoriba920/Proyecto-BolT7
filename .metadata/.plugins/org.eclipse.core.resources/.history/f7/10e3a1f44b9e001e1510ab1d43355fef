@@ -1,0 +1,36 @@
+package ies.morilla.ibanez.jesus.boletin7.components;
+
+import java.awt.Component;
+
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+
+public class TaskRenderer extends JLabel implements ListCellRenderer<Task> {
+
+    public TaskRenderer() {
+        setOpaque(true);
+    }
+
+    @Override
+    public Component getListCellRendererComponent(JList<? extends Task> list, Task task, int index,
+                                                  boolean isSelected, boolean cellHasFocus) {
+        setText(task.getTitle() + " - " + task.getDescription());
+
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        } else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
+
+        setEnabled(list.isEnabled());
+        setFont(list.getFont());
+        
+        return this;
+    }
+}
+

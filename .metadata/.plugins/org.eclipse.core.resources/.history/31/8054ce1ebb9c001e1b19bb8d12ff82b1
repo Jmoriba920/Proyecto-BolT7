@@ -1,0 +1,131 @@
+package ies.morilla.ibanez.jesus.boletin7.view;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import ies.morilla.ibanez.jesus.boletin7.components.Button;
+import ies.morilla.ibanez.jesus.boletin7.components.JERoundPasswordField;
+import ies.morilla.ibanez.jesus.boletin7.components.JERoundTextField;
+import ies.morilla.ibanez.jesus.boletin7.controllers.Controller_MainWindowAT;
+import ies.morilla.ibanez.jesus.boletin7.utils.Utils;
+
+public class MainWindow_AT extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+
+	public JPanel contentPane;
+	private JERoundTextField usernameField;
+	private JERoundPasswordField passwordField;
+	private Controller_MainWindowAT controller;
+	int xx, xy;
+
+	public MainWindow_AT() {
+		controller = new Controller_MainWindowAT(this);
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(MainWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/icon.png")));
+		setBackground(Color.WHITE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 729, 476);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(240, 237, 255));
+		setTitle("AT Login");
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		setLocationRelativeTo(null);
+		contentPane.setLayout(null);
+
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(240, 237, 255));
+		panel.setBounds(0, 0, 346, 437);
+		contentPane.add(panel);
+		panel.setLayout(null);
+
+		JLabel label = new JLabel("");
+		label.setBounds(10, 0, 336, 437);
+		ImageIcon imageIcon = new ImageIcon(
+				MainWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/bg.png"));
+		Image image = imageIcon.getImage().getScaledInstance(346, 437, Image.SCALE_SMOOTH);
+		label.setIcon(new ImageIcon(image));
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setVerticalAlignment(JLabel.CENTER);
+		panel.add(label);
+
+		JLabel lblUsername = new JLabel("Usuario");
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblUsername.setBounds(395, 58, 114, 14);
+		contentPane.add(lblUsername);
+
+		usernameField = new JERoundTextField();
+		usernameField.setBounds(395, 83, 283, 36);
+		ImageIcon userIcon = new ImageIcon(
+				MainWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/user_icon.png"));
+		usernameField.setIcon(userIcon);
+		contentPane.add(usernameField);
+
+		JLabel lblPassword = new JLabel("Contraseña");
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblPassword.setBounds(395, 132, 91, 14);
+		contentPane.add(lblPassword);
+
+		passwordField = new JERoundPasswordField();
+		passwordField.setBounds(395, 157, 283, 36);
+		ImageIcon useIcon = new ImageIcon(
+				MainWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/password_icon.png"));
+		passwordField.setIcon(useIcon);
+		contentPane.add(passwordField);
+
+		Button loginBtn = new Button();
+		loginBtn.setText("Login");
+		loginBtn.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		loginBtn.setBounds(395, 291, 283, 36);
+		contentPane.add(loginBtn);
+
+		loginBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == loginBtn) {
+					controller.actionPerformed(e);
+				}
+			}
+		});
+
+		Button exitBtn = new Button();
+		exitBtn.setText("Salir");
+		exitBtn.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		exitBtn.setBounds(395, 353, 283, 36);
+		contentPane.add(exitBtn);
+
+		exitBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == exitBtn) {
+					
+				}
+			}
+		});
+
+	}
+
+	public String getUsername() {
+		return usernameField.getText();
+	}
+
+	public String getPassword() {
+		return new String(passwordField.getPassword());
+	}
+
+	public JPanel getJPanel() {
+		return contentPane;
+	}
+
+}

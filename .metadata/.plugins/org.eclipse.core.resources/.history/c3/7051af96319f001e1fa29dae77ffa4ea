@@ -1,0 +1,27 @@
+package ies.morilla.ibanez.jesus.boletin7;
+
+import java.awt.EventQueue;
+import java.util.Locale;
+
+import ies.morilla.ibanez.jesus.boletin7.view.MainWindow_AT;
+
+/**
+ * Hello world!
+ *
+ */
+public class App {
+	public static void main(String[] args) {
+		Locale.setDefault(Locale.ITALIAN);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainWindow_AT frame = new MainWindow_AT();
+
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+}

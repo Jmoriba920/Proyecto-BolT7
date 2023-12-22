@@ -1,0 +1,129 @@
+package ies.morilla.ibanez.jesus.boletin7.controllers;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+
+import ies.morilla.ibanez.jesus.boletin7.components.TaskRenderer;
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+import ies.morilla.ibanez.jesus.boletin7.querys.TaskDML;
+import ies.morilla.ibanez.jesus.boletin7.view.SecondaryWindow_AT;
+
+public class Controller_SecondaryWindowAT implements ActionListener {
+
+	private SecondaryWindow_AT window;
+	private JList<Task> taskJList;
+
+	public Controller_SecondaryWindowAT(SecondaryWindow_AT window) {
+		super();
+		this.window = window;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+
+			JButton clickedButton = (JButton) e.getSource();
+
+			if (clickedButton == window.getBtnAddTask()) {
+				Task task = new Task();
+				task.setTitle(window.getTitleTask());
+				task.setDescription(window.getDescription());
+				task.setDate(window.getDate());
+				task.setStatus(window.getStatus());
+
+				TaskDML.insertTask(task);
+
+				updateJList();
+
+				cleandFields();
+
+			} else if (clickedButton == window.btnEditTask()) {
+
+				Task task = taskJList.getSelectedValue();
+				task.setId(task.getId());
+				task.setTitle(window.getTitleTask());
+				task.setDescription(window.getDescription());
+				task.setDate(window.getDate());
+				task.setStatus(window.getStatus());
+
+				TaskDML.updateTask(task);
+
+				updateJList();
+
+				cleandFields();
+			}
+		}
+	}
+
+	public static void saveFile() {
+		List<Task> taskList = TaskDML.getAllTasks();
+
+		String txtFileName = "tasks.txt";
+
+		try (FileWriter fw = new FileWriter(txtFileName)) {
+			for (Task task : taskList) {
+				fw.write(task.toString() + "\n");
+			}
+
+			System.out.println("Archivo de texto creado con éxito: " + txtFileName);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Error al escribir el archivo de texto: " + e.getMessage());
+		}
+
+		ImageIcon icono = new ImageIcon(Controller_SecondaryWindowAT.class
+				.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/save_icon.png"));
+
+		JOptionPane.showMessageDialog(null, "Archivo guardado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE,
+				icono);
+
+	}
+
+	public void updateJList() {
+		List<Task> taskList = TaskDML.getAllTasks();
+
+		taskJList = window.getTaskList();
+
+		DefaultListModel<Task> listModel = new DefaultListModel<>();
+
+		for (Task task : taskList) {
+			listModel.addElement(task);
+		}
+
+		taskJList.setModel(listModel);
+		taskJList.setCellRenderer(new TaskRenderer(window));
+	}
+
+	public void cleandFields() {
+		window.setTitleTask("");
+		window.setDescription("");
+		window.setStatus("Completada");
+		window.setTodayDate();
+	}
+
+	public void exitApp() {
+		ImageIcon icon = new ImageIcon(Controller_SecondaryWindowAT.class
+				.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/exit_icon.png"));
+
+		int seleccion = JOptionPane.showOptionDialog(window, "¿Estás seguro de que deseas salir?", "Confirmar salida",
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon, new Object[] { "Salir", "Cancelar" },
+				"Salir");
+
+		if (seleccion == 0) {
+			window.dispose();
+			System.exit(0);
+		} else if (seleccion == 1) {
+			JOptionPane.getRootFrame().dispose();
+		}
+	}
+}

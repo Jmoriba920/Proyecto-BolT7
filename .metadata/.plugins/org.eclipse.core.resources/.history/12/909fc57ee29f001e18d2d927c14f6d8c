@@ -1,0 +1,44 @@
+import static org.mockito.Mockito.*;
+
+import java.awt.event.ActionEvent;
+import java.util.Arrays;
+
+import javax.swing.JButton;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ies.morilla.ibanez.jesus.boletin7.controllers.Controller_SecondaryWindowAT;
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+import ies.morilla.ibanez.jesus.boletin7.view.SecondaryWindow_AT;
+
+public class SecondaryWindow_ATTest {
+
+    private SecondaryWindow_AT secondaryWindow;
+    private Controller_SecondaryWindowAT mockController;
+
+    @Before
+    public void setUp() {
+        secondaryWindow = new SecondaryWindow_AT();
+        mockController = mock(Controller_SecondaryWindowAT.class);
+        secondaryWindow.setController(mockController);
+    }
+
+    @Test
+    public void testAddTaskButtonClicked() {
+        // Configurar el estado de la interfaz de usuario
+        secondaryWindow.setTitle("Título de prueba");
+        secondaryWindow.setDescription("Descripción de prueba");
+
+        // Simular un clic en el botón de añadir tarea
+        JButton btnAddTask = secondaryWindow.getBtnAddTask();
+        btnAddTask.getActionListeners()[0].actionPerformed(new ActionEvent(btnAddTask, ActionEvent.ACTION_PERFORMED, null));
+
+        // Verificar que el controlador se llamó con los parámetros correctos
+        verify(mockController).actionPerformed(any(ActionEvent.class));
+
+        // También puedes verificar otros comportamientos según tu lógica de negocio
+        // Por ejemplo, si esperas una llamada a mockController.emptyTitle() en caso de título vacío
+        // verify(mockController).emptyTitle();
+    }
+}

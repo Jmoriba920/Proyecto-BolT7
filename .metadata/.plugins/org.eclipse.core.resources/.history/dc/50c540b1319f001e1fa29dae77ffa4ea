@@ -1,0 +1,41 @@
+package ies.morilla.ibanez.jesus.boletin7.controllers;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Locale;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
+import ies.morilla.ibanez.jesus.boletin7.view.MainWindow_AT;
+import ies.morilla.ibanez.jesus.boletin7.view.SecondaryWindow_AT;
+import ies.morilla.ibanez.jesus.boletin7.view.WelcomeWindow_AT;
+
+public class Controller_MainWindowAT implements ActionListener {
+
+	private MainWindow_AT window;
+
+	public Controller_MainWindowAT(MainWindow_AT window) {
+		super();
+		this.window = window;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+			String username = window.getUsername();
+			String password = window.getPassword();
+
+			if (username.equals("usuario") && password.equals("123456")) {
+			    window.dispose();
+			    SecondaryWindow_AT frame = new SecondaryWindow_AT();
+			    frame.setVisible(true); 
+			    frame.setLocale(Locale.FRANCE);
+			    WelcomeWindow_AT welcomeWindow = new WelcomeWindow_AT();
+				welcomeWindow.setVisible(true);
+			} else {
+			    JOptionPane.showMessageDialog(window, "Usuario o contraseña incorrectos. Por favor, inténtelo de nuevo.", "Error de Autenticación", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+	}
+}

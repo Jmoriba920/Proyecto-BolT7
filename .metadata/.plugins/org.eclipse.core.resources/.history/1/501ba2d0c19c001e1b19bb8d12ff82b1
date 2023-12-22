@@ -1,0 +1,43 @@
+package ies.morilla.ibanez.jesus.boletin7.view;
+
+import javax.swing.JDialog;
+
+import ies.morilla.ibanez.jesus.boletin7.components.Button;
+import ies.morilla.ibanez.jesus.boletin7.utils.Utils;
+
+import java.awt.Toolkit;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+
+public class ExitWindow_AT extends JDialog {
+
+	private static final long serialVersionUID = 1L;
+
+	public ExitWindow_AT() {
+		setTitle("AT Exit");
+		setBackground(new Color(240, 237, 255));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ExitWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/icon.png")));
+		getContentPane().setLayout(null);
+		
+		Button loginBtn = new Button();
+		loginBtn.setIcon(new ImageIcon(ExitWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/exit_icon.png")));
+		loginBtn.setText("Salir");
+		loginBtn.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		loginBtn.setBounds(199, 114, 111, 54);
+		
+		getContentPane().add(loginBtn);
+		
+		JLabel lblNewLabel = new JLabel("¿Esta seguro que desea salir?");
+		lblNewLabel.setBounds(80, 11, 230, 39);
+		lblNewLabel.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		getContentPane().add(lblNewLabel);
+		
+		Button btnCancel = new Button();
+		btnCancel.setText("Cancelar");
+		btnCancel.setFont(new Font("Atkinson Hyperlegible", Font.PLAIN, 15));
+		btnCancel.setBounds(80, 114, 111, 54);
+		getContentPane().add(btnCancel);
+	}
+}

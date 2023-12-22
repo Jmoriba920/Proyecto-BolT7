@@ -1,0 +1,60 @@
+package ies.morilla.ibanez.jesus.boletin7.view;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+
+import ies.morilla.ibanez.jesus.boletin7.components.Button;
+import ies.morilla.ibanez.jesus.boletin7.utils.Utils;
+
+public class WelcomeWindow_AT extends JDialog {
+
+	private static final long serialVersionUID = 1L;
+
+	public WelcomeWindow_AT() {
+		getContentPane().setBackground(new Color(240, 237, 255));
+		setTitle("Welcome AT");
+		setBackground(new Color(240, 237, 255));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(ExitWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/icon.png")));
+
+		getContentPane().setLayout(null);
+
+		Button continueBtn = new Button();
+		continueBtn.setIcon(new ImageIcon(WelcomeWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/continue_icon.png")));
+		continueBtn.setText("Continuar");
+		continueBtn.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		continueBtn.setBounds(120, 96, 140, 54);
+
+		continueBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == continueBtn) {
+					System.exit(0);
+				}
+			}
+		});
+
+		getContentPane().add(continueBtn);
+
+		JLabel lblMessageExit = new JLabel("Bienvenido a AT tu Administrador de Tareas");
+		lblMessageExit.setBounds(32, 22, 325, 40);
+		lblMessageExit.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		getContentPane().add(lblMessageExit);
+
+		setSize(new Dimension(400, 200));
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (screenSize.width - getWidth()) / 2;
+		int y = (screenSize.height - getHeight()) / 2;
+		setLocation(new Point(x, y));
+	}
+
+}

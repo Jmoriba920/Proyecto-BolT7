@@ -1,0 +1,57 @@
+package ies.morilla.ibanez.jesus.boletin7.components;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class CustomOptionPaneExit {
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> showCustomOptionPane());
+    }
+
+    private static void showCustomOptionPane() {
+        // ... (your existing code for creating and displaying the custom option pane)
+    }
+
+    // Updated method to show exit confirmation with only Yes and No buttons
+    public boolean showExitConfirmation() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("¿Estás seguro de que deseas salir?");
+        JButton yesButton = new JButton("Sí");
+        JButton noButton = new JButton("No");
+
+        AtomicBoolean shouldExit = new AtomicBoolean(false);
+
+        yesButton.addActionListener(e -> {
+            shouldExit.set(true);
+            // Close the dialog
+            ((Window) SwingUtilities.getRoot(panel)).dispose();
+        });
+
+        noButton.addActionListener(e -> {
+            // Close the dialog without exiting
+            ((Window) SwingUtilities.getRoot(panel)).dispose();
+        });
+
+        panel.setLayout(new GridLayout(2, 1));
+        panel.add(label);
+
+        // Add only Yes and No buttons to the panel
+        panel.add(yesButton);
+        panel.add(noButton);
+
+        // Create a JDialog to show the custom option pane
+        JDialog dialog = new JDialog();
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null); // Center the dialog on the screen
+        dialog.setVisible(true);
+
+        // Return a boolean indicating whether the user chose to exit
+        return shouldExit.get();
+    }
+}

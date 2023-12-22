@@ -1,0 +1,333 @@
+package ies.morilla.ibanez.jesus.boletin7.view;
+
+import java.awt.Choice;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JCalendar;
+
+import ies.morilla.ibanez.jesus.boletin7.components.Button;
+import ies.morilla.ibanez.jesus.boletin7.controllers.Controller_SecondaryWindowAT;
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+import ies.morilla.ibanez.jesus.boletin7.utils.Utils;
+import javax.swing.border.LineBorder;
+import java.awt.Cursor;
+import java.awt.Insets;
+import javax.swing.UIManager;
+import javax.swing.SwingConstants;
+
+public class SecondaryWindow_AT extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JMenuItem menuSaveFile, menuExit, menuMoreInformation;
+	private JTextField titleField;
+	private JTextArea taDescription;
+	private JCalendar calendar;
+	private Choice choiceStatus;
+	private Button btnAddTask, btnEditTask;
+	private JList<Task> taskList;
+	private Controller_SecondaryWindowAT controller;
+
+	public SecondaryWindow_AT() {
+		controller = new Controller_SecondaryWindowAT(this);
+		setTitle("AT Tareas");
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(SecondaryWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/icon.png")));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 900, 710);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(240, 237, 255));
+		setLocationRelativeTo(null);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JLabel lblTaskList = new JLabel("Lista de Tareas");
+		lblTaskList.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		lblTaskList.setBounds(140, 15, 109, 18);
+		contentPane.add(lblTaskList);
+
+		taskList = new JList<>();
+		taskList.setBorder(new LineBorder(new Color(65, 66, 113), 2, true));
+		taskList.setBounds(30, 44, 340, 570);
+		contentPane.add(taskList);
+
+		JLabel lblTitle = new JLabel("Título");
+		lblTitle.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		lblTitle.setBounds(460, 15, 50, 18);
+		contentPane.add(lblTitle);
+
+		titleField = new JTextField();
+		titleField.setBorder(new LineBorder(new Color(65, 66, 113), 2, true));
+		titleField.setBounds(460, 45, 340, 40);
+		titleField.setFont(Utils.loadFonts(Utils.ATKINSON_REGULAR, 15));
+		contentPane.add(titleField);
+
+		JLabel lblDescription = new JLabel("Descripción");
+		lblDescription.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		lblDescription.setBounds(460, 102, 90, 18);
+		contentPane.add(lblDescription);
+
+		taDescription = new JTextArea();
+		taDescription.setBorder(new LineBorder(new Color(65, 66, 113), 2, true));
+		taDescription.setBounds(460, 131, 340, 87);
+		taDescription.setFont(Utils.loadFonts(Utils.ATKINSON_REGULAR, 15));
+		contentPane.add(taDescription);
+
+		JLabel lblDate = new JLabel("Fecha");
+		lblDate.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		lblDate.setBounds(460, 235, 50, 18);
+		contentPane.add(lblDate);
+
+		calendar = new JCalendar();
+		calendar.setBorder(new LineBorder(new Color(65, 66, 113), 2, true));
+		calendar.setWeekOfYearVisible(false);
+		calendar.getDayChooser().setForeground(new Color(117, 116, 150));
+		calendar.setSundayForeground(new Color(255, 95, 9));
+		calendar.setWeekdayForeground(new Color(240, 237, 255));
+		calendar.setDecorationBackgroundColor(new Color(65, 66, 113));
+		calendar.setBackground(new Color(255, 128, 0));
+		calendar.setBounds(460, 265, 340, 180);
+		contentPane.add(calendar);
+
+		JLabel lblStatus = new JLabel("Estado");
+		lblStatus.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		lblStatus.setBounds(460, 460, 50, 18);
+		contentPane.add(lblStatus);
+
+		choiceStatus = new Choice();
+		choiceStatus.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		choiceStatus.add("Completada");
+		choiceStatus.add("Pediente");
+		choiceStatus.add("En Proceso");
+		choiceStatus.setFont(Utils.loadFonts(Utils.ATKINSON_REGULAR, 15));
+		choiceStatus.setBounds(460, 485, 340, 40);
+		contentPane.add(choiceStatus);
+
+		btnAddTask = new Button();
+		btnAddTask.setText("Añadir Tarea");
+		btnAddTask.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		btnAddTask.setBounds(460, 530, 130, 40);
+		contentPane.add(btnAddTask);
+
+		btnAddTask.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnAddTask) {
+					controller.actionPerformed(e);
+				}
+			}
+		});
+
+		btnEditTask = new Button();
+		btnEditTask.setText("Editar Tarea");
+		btnEditTask.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+		btnEditTask.setBounds(660, 530, 140, 40);
+		contentPane.add(btnEditTask);
+
+		btnEditTask.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == btnEditTask) {
+					controller.actionPerformed(e);
+				}
+			}
+		});
+
+		controller.updateJList();
+
+		JMenuBar menuBar = createMenuBar();
+		setJMenuBar(menuBar);
+	}
+
+	private JMenuBar createMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBorder(UIManager.getBorder("MenuBar.border"));
+		menuBar.setBackground(new Color(117, 116, 150));
+
+		menuBar.setPreferredSize(new Dimension(menuBar.getWidth(), 35));
+
+		JMenu menuArchive = new JMenu("Archivo");
+		menuArchive.setBorder(new LineBorder(new Color(240, 237, 255), 1, true));
+		menuArchive.setBackground(new Color(65, 66, 113));
+		menuArchive.setForeground(new Color(255, 255, 255));
+		menuArchive.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 12));
+		menuArchive.setOpaque(true);
+		menuArchive.setIcon(new ImageIcon(
+				SecondaryWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/archive_icon.png")));
+		menuArchive.setMnemonic(KeyEvent.VK_A);
+
+		menuSaveFile = new JMenuItem("Guardar Archivo");
+		menuSaveFile.setHorizontalTextPosition(SwingConstants.LEFT);
+		menuSaveFile.setHorizontalAlignment(SwingConstants.CENTER);
+		menuSaveFile.setFont(Utils.loadFonts(Utils.ATKINSON_REGULAR, 12));
+		menuSaveFile.setIcon(new ImageIcon(
+				SecondaryWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/save_icon.png")));
+		menuSaveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		menuArchive.add(menuSaveFile);
+
+		menuSaveFile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == menuSaveFile) {
+					controller.saveFile();
+				}
+			}
+		});
+		
+        KeyStroke saveKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK);
+        menuSaveFile.registerKeyboardAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	controller.saveFile();
+            }
+        }, saveKeyStroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+
+		menuExit = new JMenuItem("Salir");
+		menuExit.setFont(Utils.loadFonts(Utils.ATKINSON_REGULAR, 12));
+		menuExit.setIcon(new ImageIcon(
+				SecondaryWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/exit_icon.png")));
+		menuExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+		menuArchive.add(menuExit);
+
+		menuBar.add(menuArchive);
+		
+		menuExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == menuExit) {
+					ExitWindow_AT exitWindow = new ExitWindow_AT();
+					exitWindow.setVisible(true);
+				}
+			}
+		});
+		
+        KeyStroke exitKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK);
+        menuSaveFile.registerKeyboardAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	controller.saveFile();
+            }
+        }, exitKeyStroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
+        
+		JMenu menuInformation = new JMenu("Información");
+		menuInformation.setMargin(new Insets(2, 5, 2, 2));
+		menuInformation.setBorder(new LineBorder(new Color(240, 237, 255), 1, true));
+		menuInformation.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 12));
+		menuInformation.setBackground(new Color(65, 66, 113));
+		menuInformation.setForeground(new Color(255, 255, 255));
+		menuInformation.setOpaque(true);
+		menuInformation.setIcon(new ImageIcon(
+				SecondaryWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/information_icon.png")));
+		menuInformation.setMnemonic(KeyEvent.VK_I);
+
+        menuMoreInformation = new JMenuItem("Versión");
+        menuMoreInformation.setFont(Utils.loadFonts(Utils.ATKINSON_REGULAR, 12));
+        menuMoreInformation.setIcon(new ImageIcon(
+				SecondaryWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/exit_icon.png")));
+        menuMoreInformation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
+
+        menuInformation.add(menuMoreInformation);
+
+        menuMoreInformation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.informationApp();
+            }
+        });
+        
+        menuBar.add(menuInformation);
+
+		return menuBar;
+	}
+
+	public String getTitleTask() {
+		return titleField.getText();
+	}
+
+	public String getDescription() {
+		return new String(taDescription.getText());
+	}
+
+	public String getDate() {
+		Date utilDate = calendar.getDate();
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String formattedDate = dateFormat.format(utilDate);
+
+		return formattedDate;
+	}
+
+	public String getStatus() {
+		String selectedStatus = choiceStatus.getSelectedItem();
+
+		return selectedStatus;
+	}
+
+	public void setTitleTask(String title) {
+		titleField.setText(title);
+	}
+
+	public void setDescription(String description) {
+		taDescription.setText(description);
+	}
+
+	public void setDate(String date) {
+		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date parsedDate = dateFormat.parse(date);
+			calendar.setDate(parsedDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setTodayDate() {
+		Date currentDate = new Date();
+		calendar.setDate(currentDate);
+	}
+
+	public void setStatus(String status) {
+		choiceStatus.select(status);
+	}
+
+	public JButton getBtnAddTask() {
+
+		return this.btnAddTask;
+	}
+
+	public JButton btnEditTask() {
+
+		return this.btnEditTask;
+	}
+
+	public JList<Task> getTaskList() {
+		return this.taskList;
+	}
+}

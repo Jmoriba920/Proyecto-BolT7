@@ -1,0 +1,29 @@
+package ies.morilla.ibanez.jesus.boletin7.querys;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+import ies.morilla.ibanez.jesus.boletin7.sqliteconnection.SQLiteConnection;
+
+public class TaskDML {
+	
+	// Función estática para ejecutar la sentencia INSERT INTO tasks
+    public static void insertTask(SQLiteConnection sqlite, Task task) {
+        try {
+            String query = "INSERT INTO tasks (nombre, descripcion, fecha, status) VALUES (?, ?, ?, ?)";
+            PreparedStatement preparedStatement = sqlite.getConnection().prepareStatement(query);
+
+            preparedStatement.setString(1, task.getNombre());
+            preparedStatement.setString(2, task.getDescripcion());
+            preparedStatement.setString(3, task.getFecha().toString()); // Assuming fecha is a LocalDate
+            preparedStatement.setString(4, task.getStatus()); // Assuming status is an Enum
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("\n\u001B[33m" + rowsAffected + " fila(s) insertada(s) en la tabla tasks.\u001B[0m");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

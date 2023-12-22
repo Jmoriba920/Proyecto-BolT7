@@ -1,0 +1,53 @@
+package ies.morilla.ibanez.jesus.boletin7.components;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CustomOptionPaneExit {
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                showCustomOptionPane();
+            }
+        });
+    }
+
+    private static void showCustomOptionPane() {
+        // ... (your existing code for creating and displaying the custom option pane)
+
+    }
+
+    // Add this method to show the exit confirmation dialog
+    public int showExitConfirmation() {
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("¿Estás seguro de que deseas salir?");
+        JButton yesButton = new JButton("Sí");
+        JButton noButton = new JButton("No");
+
+        yesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Close the dialog and exit the application
+                ((Window) SwingUtilities.getRoot(panel)).dispose();
+                System.exit(0);
+            }
+        });
+
+        noButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Close the dialog without exiting
+                ((Window) SwingUtilities.getRoot(panel)).dispose();
+            }
+        });
+
+        panel.setLayout(new GridLayout(3, 1));
+        panel.add(label);
+        panel.add(yesButton);
+        panel.add(noButton);
+    }
+}

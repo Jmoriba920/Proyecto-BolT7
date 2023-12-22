@@ -1,0 +1,63 @@
+package ies.morilla.ibanez.jesus.boletin7;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import ies.morilla.ibanez.jesus.boletin7.controllers.Controller_SecondaryWindowAT;
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+import ies.morilla.ibanez.jesus.boletin7.view.SecondaryWindow_AT;
+
+public class SecondaryWindow_ATTest {
+
+	private SecondaryWindow_AT secondaryWindow;
+	private Controller_SecondaryWindowAT mockController;
+
+	@Before
+	public void setUp() {
+		secondaryWindow = new SecondaryWindow_AT();
+		mockController = Mockito.mock(Controller_SecondaryWindowAT.class);
+		secondaryWindow.setController(mockController);
+	}
+
+    @Test
+    public void testAddTaskButtonClicked() {
+        secondaryWindow.setTitleTask("Título de prueba");
+        secondaryWindow.setDescription("Descripción de prueba");
+
+        JButton btnAddTask = secondaryWindow.getBtnAddTask();
+        ActionEvent addActionEvent = new ActionEvent(btnAddTask, ActionEvent.ACTION_PERFORMED, "command");
+        btnAddTask.getActionListeners()[0].actionPerformed(addActionEvent);
+
+        // Verificar que la tarea se ha agregado correctamente
+        assertEquals(6, secondaryWindow.getTaskList().getModel().getSize());
+        Task addedTask = secondaryWindow.getTaskList().getModel().getElementAt(0);
+        assertEquals("Título de prueba", addedTask.getTitle());
+        assertEquals("Descripción de prueba", addedTask.getDescription());
+    }
+
+	@Test
+	public void testEditTaskButtonClicked() {
+		Task existingTask = new Task("Título existente", "Descripción existente", "2023-12-21", "Pediente");
+
+		secondaryWindow.getTaskList().setListData(new Task[] { existingTask });
+
+		secondaryWindow.setTitleTask("Título editado");
+		secondaryWindow.setDescription("Descripción editada");
+
+		JButton btnEditTask = secondaryWindow.getbtnEditTask();
+		ActionEvent mockEvent = new ActionEvent(btnEditTask, ActionEvent.ACTION_PERFORMED, "command");
+
+		btnEditTask.getActionListeners()[0].actionPerformed(mockEvent);
+
+		verify(mockController).actionPerformed(any(ActionEvent.class));
+
+	}
+}

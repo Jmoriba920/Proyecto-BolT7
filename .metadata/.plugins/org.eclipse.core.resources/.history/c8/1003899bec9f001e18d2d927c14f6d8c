@@ -1,0 +1,49 @@
+package ies.morilla.ibanez.jesus.boletin7;
+
+import static org.mockito.Mockito.*;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+
+import org.junit.Before;
+import org.junit.Test;
+import ies.morilla.ibanez.jesus.boletin7.controllers.Controller_MainWindowAT;
+import ies.morilla.ibanez.jesus.boletin7.view.MainWindow_AT;
+
+public class MainWindow_ATTest {
+
+    private MainWindow_AT mainWindow;
+    private Controller_MainWindowAT mockController;
+
+    @Before
+    public void setUp() {
+        mainWindow = new MainWindow_AT();
+        mockController = mock(Controller_MainWindowAT.class);
+        mainWindow.setController(mockController);
+    }
+
+    @Test
+    public void testLoginButtonClicked() {
+    	
+        JButton loginBtn = mainWindow.getLoginButton();
+        ActionEvent mockEvent = new ActionEvent(loginBtn, ActionEvent.ACTION_PERFORMED, "command");
+
+        loginBtn.getActionListeners()[0].actionPerformed(mockEvent);
+
+        verify(mockController).actionPerformed(any(ActionEvent.class));
+    }
+
+    @Test
+    public void testExitButtonClicked() {
+
+        JButton exitBtn = mainWindow.getExitButton();
+        ActionEvent mockEvent = new ActionEvent(exitBtn, ActionEvent.ACTION_PERFORMED, "command");
+
+        exitBtn.getActionListeners()[0].actionPerformed(mockEvent);
+
+        verify(mockController, never()).actionPerformed(any(ActionEvent.class));
+        // Assuming the exit button should not invoke any controller action
+    }
+}
+

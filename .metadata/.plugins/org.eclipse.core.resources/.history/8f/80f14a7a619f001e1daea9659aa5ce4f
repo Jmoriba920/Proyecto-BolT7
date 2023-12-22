@@ -1,0 +1,131 @@
+package ies.morilla.ibanez.jesus.boletin7.controllers;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JList;
+
+import com.opencsv.CSVWriter;
+
+import ies.morilla.ibanez.jesus.boletin7.components.TaskRenderer;
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+import ies.morilla.ibanez.jesus.boletin7.querys.TaskDML;
+import ies.morilla.ibanez.jesus.boletin7.view.SecondaryWindow_AT;
+
+public class Controller_SecondaryWindowAT implements ActionListener {
+
+	private SecondaryWindow_AT window;
+	private JList<Task> taskJList;
+
+	public Controller_SecondaryWindowAT(SecondaryWindow_AT window) {
+		super();
+		this.window = window;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JButton) {
+
+			JButton clickedButton = (JButton) e.getSource();
+
+			if (clickedButton == window.getBtnAddTask()) {
+				Task task = new Task();
+				task.setTitle(window.getTitleTask());
+				task.setDescription(window.getDescription());
+				task.setDate(window.getDate());
+				task.setStatus(window.getStatus());
+
+				TaskDML.insertTask(task);
+
+				updateJList();
+
+				cleandFields();
+
+			} else if (clickedButton == window.btnEditTask()) {
+
+				Task task = taskJList.getSelectedValue();
+				task.setId(task.getId());
+				task.setTitle(window.getTitleTask());
+				task.setDescription(window.getDescription());
+				task.setDate(window.getDate());
+				task.setStatus(window.getStatus());
+
+				TaskDML.updateTask(task);
+
+				updateJList();
+
+				cleandFields();
+			}
+		}
+	}
+
+    public static void saveFile() {
+        List<Task> taskList = TaskDML.getAllTasks();
+
+        // Nombre del archivo CSV
+        String csvFileName = "tasks.csv";
+
+        try (FileWriter csvWriter = new FileWriter(csvFileName)) {
+
+            // Escribir encabezados
+            csvWriter.append("ID,Nombre,Descripción,Fecha,Estado");
+            csvWriter.append("\n");
+
+            // Escribir datos de las tareas
+            for (Task task : taskList) {
+                csvWriter.append(String.valueOf(task.getId()));
+                csvWriter.append(",");
+                csvWriter.append(task.getTitle());
+                csvWriter.append(",");
+                csvWriter.append(task.getDescription());
+                csvWriter.append(",");
+                csvWriter.append(task.getDate());
+                csvWriter.append(",");
+                csvWriter.append(task.getStatus());
+                csvWriter.append("\n");
+            }
+
+            System.out.println("Archivo CSV creado con éxito: " + csvFileName);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error al escribir el archivo CSV: " + e.getMessage());
+        }
+    }
+
+	public void loadFile() {
+
+	}
+
+	public void updateJList() {
+		List<Task> taskList = TaskDML.getAllTasks();
+
+		taskJList = window.getTaskList();
+
+		DefaultListModel<Task> listModel = new DefaultListModel<>();
+
+		for (Task task : taskList) {
+			listModel.addElement(task);
+		}
+
+		taskJList.setModel(listModel);
+		taskJList.setCellRenderer(new TaskRenderer(window));
+	}
+
+	public void cleandFields() {
+		window.setTitleTask("");
+		window.setDescription("");
+		window.setStatus("Completada");
+		window.setTodayDate();
+	}
+
+	public void exitApp() {
+		window.dispose();
+	}
+}

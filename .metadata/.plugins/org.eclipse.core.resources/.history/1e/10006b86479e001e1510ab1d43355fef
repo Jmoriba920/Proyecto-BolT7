@@ -1,0 +1,85 @@
+package ies.morilla.ibanez.jesus.boletin7.models;
+
+/**
+ * Clase que representa una tarea con nombre, descripción, fecha y estado.
+ */
+public class Task {
+	private Integer id;
+	private String title; // Nombre de la tarea.
+	private String description; // Descripción de la tarea.
+	private String date; // Fecha de la tarea.
+	private String status; // Estado actual de la tarea.
+
+	/**
+	 * Constructor vacío
+	 */
+	public Task() {
+		super();
+	}
+	
+	public Task(String title, String description, String date, String status) {
+		super();
+		this.title = title;
+		this.description = description;
+		this.date = date;
+		this.status = status;
+	}
+	
+	public Task(Integer id, String title, String description, String date, String status) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.date = date;
+		this.status = status;
+	}
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Task [title=" + title + ", description=" + description + ", date=" + date + ", status=" + status + "]";
+	}
+
+}

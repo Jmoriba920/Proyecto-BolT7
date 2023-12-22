@@ -1,0 +1,32 @@
+{
+	"folders": {},
+	"connections": {
+		"sqlite_jdbc-18c77dd9ce6-18a60fc4d4536c47": {
+			"provider": "sqlite",
+			"driver": "sqlite_jdbc",
+			"name": "task.db",
+			"save-password": true,
+			"configuration": {
+				"database": "C:\\Users\\jesus\\Desktop\\Desarrollo de Interfaces\\Tarea 7\\Proyecto BolT7\\BolT7\\task.db",
+				"url": "jdbc:sqlite:C:\\Users\\jesus\\Desktop\\Desarrollo de Interfaces\\Tarea 7\\Proyecto BolT7\\BolT7\\task.db",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": false,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800
+		}
+	}
+}

@@ -1,0 +1,106 @@
+package ies.morilla.ibanez.jesus.boletin7.querys;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+import ies.morilla.ibanez.jesus.boletin7.sqliteconnection.SQLiteConnection;
+
+public class TaskDML {
+
+    private SQLiteConnection con;
+
+    public TaskDML(SQLiteConnection con) {
+        this.con = new SQLiteConnection();
+    }
+
+    public void insertTask(Task task) {
+        try {
+            String query = "INSERT INTO tasks (nombre, descripcion, fecha, status) VALUES (?, ?, ?, ?)";
+            PreparedStatement preparedStatement = con.getConnection().prepareStatement(query);
+
+            preparedStatement.setString(1, task.getTitle());
+            preparedStatement.setString(2, task.getDescription());
+            preparedStatement.setString(3, task.getDate());
+            preparedStatement.setString(4, task.getStatus());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("\n\u001B[33m" + rowsAffected + " fila(s) insertada(s) en la tabla tasks.\u001B[0m");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            con.disconnect();
+        }
+    }
+
+    public List<Task> getAllTasks() {
+        List<Task> tasks = new ArrayList<>();
+
+        try {
+            String query = "SELECT * FROM tasks";
+            PreparedStatement preparedStatement = con.getConnection().prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String title = resultSet.getString("nombre");
+                String description = resultSet.getString("descripcion");
+                String date = resultSet.getString("fecha");
+                String status = resultSet.getString("status");
+
+                Task task = new Task(id, title, description, date, status);
+
+                tasks.add(task);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            con.disconnect();
+        }
+
+        return tasks;
+    }
+
+    public void deleteTaskById(int taskId) {
+        try {
+            String query = "DELETE FROM tasks WHERE id = ?";
+            PreparedStatement preparedStatement = con.getConnection().prepareStatement(query);
+
+            preparedStatement.setInt(1, taskId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("\n\u001B[33m" + rowsAffected + " fila(s) eliminada(s) en la tabla tasks.\u001B[0m");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            con.disconnect();
+        }
+    }
+
+    public void updateTask(Task task) {
+        try {
+            String query = "UPDATE tasks SET nombre=?, descripcion=?, fecha=?, status=? WHERE id=?";
+            PreparedStatement preparedStatement = con.getConnection().prepareStatement(query);
+
+            preparedStatement.setString(1, task.getTitle());
+            preparedStatement.setString(2, task.getDescription());
+            preparedStatement.setString(3, task.getDate());
+            preparedStatement.setString(4, task.getStatus());
+            preparedStatement.setInt(5, task.getId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("\n\u001B[33m" + rowsAffected + " fila(s) actualizada(s) en la tabla tasks.\u001B[0m");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            con.disconnect();
+        }
+    }
+}

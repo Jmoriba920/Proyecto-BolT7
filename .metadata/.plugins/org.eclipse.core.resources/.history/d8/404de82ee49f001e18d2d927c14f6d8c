@@ -1,0 +1,37 @@
+package ies.morilla.ibanez.jesus.boletin7;
+
+import static org.mockito.Mockito.*;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ies.morilla.ibanez.jesus.boletin7.controllers.Controller_SecondaryWindowAT;
+import ies.morilla.ibanez.jesus.boletin7.view.SecondaryWindow_AT;
+
+public class SecondaryWindow_ATTest {
+
+    private SecondaryWindow_AT secondaryWindow;
+    private Controller_SecondaryWindowAT mockController;
+
+    @Before
+    public void setUp() {
+    	secondaryWindow = new SecondaryWindow_AT();
+    	Controller_SecondaryWindowAT myController = secondaryWindow.getController();
+    	secondaryWindow.setController(myController);
+    }
+
+    @Test
+    public void testAddTaskButtonClicked() {
+        secondaryWindow.setTitleTask("Título de prueba");
+        secondaryWindow.setDescription("Descripción de prueba");
+
+        JButton btnAddTask = secondaryWindow.getBtnAddTask();
+        btnAddTask.getActionListeners()[1].actionPerformed(new ActionEvent(btnAddTask, ActionEvent.ACTION_PERFORMED, null));
+
+        verify(mockController).actionPerformed(any(ActionEvent.class));
+    }
+}

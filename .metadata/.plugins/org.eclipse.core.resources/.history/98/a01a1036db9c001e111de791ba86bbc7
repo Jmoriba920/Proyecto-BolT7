@@ -1,0 +1,120 @@
+package ies.morilla.ibanez.jesus.boletin7.models;
+
+import java.time.LocalDate;
+
+/**
+ * Clase que representa una tarea con nombre, descripción, fecha y estado.
+ */
+public class Tarea {
+    private String nombre;       // Nombre de la tarea.
+    private String descripcion;  // Descripción de la tarea.
+    private LocalDate fecha;         // Fecha de la tarea.
+    private StatusTarea status;  // Estado actual de la tarea.
+
+    /**
+     * Constructor de la clase Tarea.
+     *
+     * @param nombre      Nombre de la tarea.
+     * @param descripcion Descripción de la tarea.
+     * @param fecha       Fecha de la tarea.
+     * @param status      Estado inicial de la tarea.
+     */
+    public Tarea(String nombre, String descripcion, LocalDate fecha, StatusTarea status) {
+        super();
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.status = status;
+    }
+
+    /**
+     * Enumeración que representa los posibles estados de una tarea.
+     */
+    public enum StatusTarea {
+        PENDIENTE,     // Tarea aún no iniciada.
+        EN_PROCESO,    // Tarea en progreso.
+        COMPLETADA     // Tarea completada.
+    }
+
+    /**
+     * Obtiene el nombre de la tarea.
+     *
+     * @return Nombre de la tarea.
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Establece el nombre de la tarea.
+     *
+     * @param nombre Nuevo nombre de la tarea.
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * Obtiene la descripción de la tarea.
+     *
+     * @return Descripción de la tarea.
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    /**
+     * Establece la descripción de la tarea.
+     *
+     * @param descripcion Nueva descripción de la tarea.
+     */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    /**
+     * Obtiene la fecha de la tarea.
+     *
+     * @return Fecha de la tarea.
+     */
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    /**
+     * Establece la fecha de la tarea.
+     *
+     * @param fecha Nueva fecha de la tarea.
+     */
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
+     * Obtiene el estado actual de la tarea.
+     *
+     * @return Estado actual de la tarea.
+     */
+    public StatusTarea getStatus() {
+        return status;
+    }
+
+    /**
+     * Establece el estado de la tarea.
+     *
+     * @param status Nuevo estado de la tarea.
+     */
+    public void setStatus(StatusTarea status) {
+        this.status = status;
+    }
+
+    /**
+     * Devuelve una representación en cadena de la tarea.
+     *
+     * @return Cadena que representa la tarea.
+     */
+    @Override
+    public String toString() {
+        return "Tarea [nombre=" + nombre + ", descripcion=" + descripcion + ", fecha=" + fecha + ", status=" + status + "]";
+    }
+}

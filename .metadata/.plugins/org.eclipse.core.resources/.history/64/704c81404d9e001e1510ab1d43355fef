@@ -1,0 +1,48 @@
+package ies.morilla.ibanez.jesus.boletin7.components;
+
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
+import ies.morilla.ibanez.jesus.boletin7.models.Task;
+
+public class TaskRenderer extends JLabel implements ListCellRenderer<Task> {
+
+	private static final long serialVersionUID = 1L;
+
+	public TaskRenderer() {
+        setOpaque(true);
+    }
+
+	@Override
+	public Component getListCellRendererComponent(JList<? extends Task> list, Task task, int index,
+	                                              boolean isSelected, boolean cellHasFocus) {
+	    String taskInfo = "<html>" +
+	            "<b>" + task.getTitle() + "</b><br>" +
+	            task.getDescription() + "<br>" +
+	            "<font color='gray'>" + task.getStatus() + " - " + task.getDate() + "</font>" +
+	            "</html>";
+
+	    setText(taskInfo);
+	    setPreferredSize(new Dimension(200, getPreferredSize().height));
+
+	    if (isSelected) {
+	        setBackground(list.getSelectionBackground());
+	        setForeground(list.getSelectionForeground());
+	    } else {
+	        setBackground(list.getBackground());
+	        setForeground(list.getForeground());
+	    }
+
+	    setEnabled(list.isEnabled());
+	    setFont(list.getFont());
+	    setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+	    return this;
+	}
+}
+

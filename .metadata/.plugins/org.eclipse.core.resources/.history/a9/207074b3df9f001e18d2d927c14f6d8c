@@ -1,0 +1,89 @@
+package ies.morilla.ibanez.jesus.boletin7.sqliteconnection;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class SQLiteConnection {
+
+    private static final String URL = "jdbc:sqlite:task.db";
+    private Connection connection;
+
+    public SQLiteConnection() {
+        try {
+            // Verificar si el archivo de la base de datos existe
+            File databaseFile = new File("task.db");
+            boolean databaseExists = databaseFile.exists();
+
+            // Cargar el controlador JDBC
+            Class.forName("org.sqlite.JDBC");
+
+            // Establecer la conexión a la base de datos
+            connection = DriverManager.getConnection(URL);
+
+            // Si la base de datos no existía, crearla
+            if (!databaseExists) {
+                createDatabase();
+            }
+
+            System.out.println("Conexión a la base de datos establecida.");
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al conectar a la base de datos SQLite", e);
+        }
+    }
+
+    private void createDatabase() {
+        // Copiar el script SQL al directorio de trabajo actual (donde se ejecuta el programa)
+        try {
+            Path sourcePath = Path.of("your_script.sql");
+            Path targetPath = Path.of("task.db");
+            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al copiar el script SQL", e);
+        }
+
+        // Ejecutar el script SQL
+        try {
+            connection.createStatement().executeUpdate(readScript("task.db"));
+            System.out.println("Base de datos y tablas creadas con éxito.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al ejecutar el script SQL", e);
+        }
+    }
+
+    private String readScript(String filename) {
+        // Lee el contenido del script desde el archivo
+        try {
+            Path path = Path.of(filename);
+            return Files.readString(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al leer el script SQL", e);
+        }
+    }
+
+    public Connection getConnection() {
+        return this.connection;
+    }
+
+    public void disconnect() {
+        if (connection != null) {
+            try {
+                // Cerrar la conexión
+                connection.close();
+                System.out.println("Conexión a la base de datos cerrada.\n");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error al cerrar la conexión a la base de datos", e);
+            }
+        }
+    }
+}

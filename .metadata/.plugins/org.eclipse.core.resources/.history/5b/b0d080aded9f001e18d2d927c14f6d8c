@@ -1,0 +1,77 @@
+package ies.morilla.ibanez.jesus.boletin7.view;
+
+import javax.swing.JDialog;
+
+import ies.morilla.ibanez.jesus.boletin7.components.Button;
+import ies.morilla.ibanez.jesus.boletin7.utils.Utils;
+
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Dimension;
+import java.awt.Point;
+
+public class ExitWindow_AT extends JDialog {
+
+    private static final long serialVersionUID = 1L;
+
+    public ExitWindow_AT() {
+    	getContentPane().setBackground(new Color(240, 237, 255));
+        setTitle("Exit AT");
+        setBackground(new Color(240, 237, 255));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(ExitWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/icon.png")));
+
+        getContentPane().setLayout(null);
+
+        Button exitBtn = new Button();
+        exitBtn.setToolTipText("Salir de la Aplicación");
+        exitBtn.setIcon(new ImageIcon(ExitWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/exit_icon.png")));
+        exitBtn.setText("Salir");
+        exitBtn.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+        exitBtn.setBounds(199, 90, 130, 54);
+        
+        exitBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == exitBtn) {
+					System.exit(0);
+				}
+			}
+        });
+
+        getContentPane().add(exitBtn);
+        
+        Button cancelBtn = new Button();
+        cancelBtn.setToolTipText("Cancelar operación");
+        cancelBtn.setIcon(new ImageIcon(ExitWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/cancel_icon.png")));
+        cancelBtn.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+        cancelBtn.setText("Cancelar");
+        cancelBtn.setBounds(60, 90, 130, 54);
+        
+        cancelBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource() == cancelBtn) {
+					dispose();
+				}
+			}
+        });
+        
+        getContentPane().add(cancelBtn);
+
+        JLabel lblMessageExit = new JLabel("¿Está seguro de que desea salir?");
+        lblMessageExit.setBounds(70, 20, 240, 40);
+        lblMessageExit.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+        getContentPane().add(lblMessageExit);
+
+        setSize(new Dimension(400, 200));
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - getWidth()) / 2;
+        int y = (screenSize.height - getHeight()) / 2;
+        setLocation(new Point(x, y));
+    }
+}

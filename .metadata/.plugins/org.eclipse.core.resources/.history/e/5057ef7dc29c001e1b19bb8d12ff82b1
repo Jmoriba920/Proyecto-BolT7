@@ -1,0 +1,56 @@
+package ies.morilla.ibanez.jesus.boletin7.view;
+
+import javax.swing.JDialog;
+
+import ies.morilla.ibanez.jesus.boletin7.components.Button;
+import ies.morilla.ibanez.jesus.boletin7.utils.Utils;
+
+import java.awt.Toolkit;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.Point;
+
+public class ExitWindow_AT extends JDialog {
+
+    private static final long serialVersionUID = 1L;
+
+    public ExitWindow_AT() {
+        setTitle("AT Exit");
+        setBackground(new Color(240, 237, 255));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(ExitWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/icon.png")));
+
+        getContentPane().setLayout(null);
+
+        Button exitBtn = new Button();
+        exitBtn.setIcon(new ImageIcon(ExitWindow_AT.class.getResource("/ies/morilla/ibanez/jesus/boletin7/assets/exit_icon.png")));
+        exitBtn.setText("Salir");
+        exitBtn.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+        exitBtn.setBounds(199, 97, 111, 54);
+
+        getContentPane().add(exitBtn);
+        
+        Button cancelBtn = new Button();
+        cancelBtn.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+        cancelBtn.setText("Cancelar");
+        cancelBtn.setBounds(71, 96, 111, 54);
+        
+        getContentPane().add(cancelBtn);
+
+        JLabel lblNewLabel = new JLabel("¿Está seguro de que desea salir?");
+        lblNewLabel.setBounds(71, 11, 239, 39);
+        lblNewLabel.setFont(Utils.loadFonts(Utils.ATKINSON_BOLD, 15));
+        getContentPane().add(lblNewLabel);
+
+        // Set a fixed size for the dialog
+        setSize(new Dimension(400, 200));
+
+        // Center the dialog on the screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - getWidth()) / 2;
+        int y = (screenSize.height - getHeight()) / 2;
+        setLocation(new Point(x, y));
+    }
+}

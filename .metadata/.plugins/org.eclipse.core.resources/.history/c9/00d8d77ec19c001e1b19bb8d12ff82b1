@@ -1,0 +1,16 @@
+package ies.morilla.ibanez.jesus.boletin7.view;
+
+import javax.swing.JPanel;
+
+public class ExitWindow_AT extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Create the panel.
+	 */
+	public ExitWindow_AT() {
+
+	}
+
+}
